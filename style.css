@@ -1,0 +1,430 @@
+:root {
+  --main-bg-color: hsl(327, 90%, 92%);
+  --heart-color: #ff69b4;
+  --text-color: #555;
+  --primary-font: "Playfair Display", serif;
+  --secondary-font: "Dancing Script", cursive;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  overflow: hidden; /* Evita scroll */
+}
+
+body {
+  font-family: var(--primary-font);
+  background: var(--main-bg-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative; /* Para el overlay de fondo */
+}
+
+/* Fondo dinámico inspirado en el video */
+.background-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 233, 236, 0.7) 0%,
+    rgba(251, 214, 227, 0.7) 100%
+  );
+  opacity: 0;
+  transition: opacity 1.5s ease-in-out;
+  pointer-events: none; /* No interactuable */
+  z-index: 0;
+}
+
+.background-overlay.active {
+  opacity: 1;
+}
+
+/* Pantalla de inicio con el botón */
+.main-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--main-bg-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  transition: opacity 1.5s ease-in-out;
+}
+
+.main-screen.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.main-screen h1 {
+  font-size: 4em;
+  color: var(--heart-color);
+  margin-bottom: 30px;
+  animation: fadeInScale 2s forwards;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.initial-message {
+  text-align: center;
+  margin-top: 20px;
+  opacity: 0;
+  animation: fadeIn 1s forwards 2s; /* Aparece después del título */
+}
+
+.initial-message p {
+  font-size: 1.2em;
+  color: var(--text-color);
+  margin-bottom: 20px;
+}
+
+.initial-heart-button {
+  font-size: 3em;
+  color: var(--heart-color);
+  cursor: pointer;
+  animation: pulse 1.5s infinite;
+  transition: transform 0.2s ease-in-out;
+}
+
+.initial-heart-button:hover {
+  transform: scale(1.1);
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+/* Contenido principal */
+.content-wrapper {
+  display: flex;
+  width: 90%;
+  max-width: 1200px;
+  height: 80vh;
+  background-color: #fff;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  opacity: 0;
+  transform: scale(0.95);
+  transition: opacity 1s ease-out, transform 1s ease-out;
+  z-index: 10;
+}
+
+.content-wrapper.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.left-section,
+.right-section {
+  flex: 1;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.left-section {
+  background-color: #fcf4f7;
+  border-right: 1px solid #eee;
+}
+
+.right-section {
+  background-color: #fff;
+}
+
+.image-container {
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: 25px;
+  position: relative;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  border: 5px solid var(--heart-color); /* Borde de corazón */
+  transform: scale(0);
+  animation: fadeInScale 1s forwards;
+  animation-delay: 1.5s; /* Aparece después de que el contenedor principal sea visible */
+}
+
+.image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(10%); /* Efecto suave */
+}
+
+.photo-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    45deg,
+    rgba(255, 105, 180, 0.2) 0%,
+    rgba(255, 160, 180, 0.1) 100%
+  );
+  border-radius: 50%;
+  transition: background 0.3s ease;
+}
+
+.image-container:hover .photo-overlay {
+  background: linear-gradient(
+    45deg,
+    rgba(255, 105, 180, 0.4) 0%,
+    rgba(255, 160, 180, 0.2) 100%
+  );
+}
+
+.countdown-display {
+  font-family: "Dancing Script", cursive;
+  font-size: 1.8em;
+  color: var(--text-color);
+  margin-top: 20px;
+  opacity: 0;
+  animation: fadeIn 1s forwards;
+  animation-delay: 2.5s; /* Aparece después de la imagen */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* Estilos para el corazón 3D (del código original) */
+.center-heart-display {
+  position: absolute;
+  bottom: 10vh; /* mueve todo más abajo */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  width: 100%;
+  height: auto;
+}
+
+.center-heart-display svg {
+  position: absolute;
+  top: -6rem; /* sube el corazón para que quede justo encima del cilindro */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6rem;
+  height: 6rem;
+  color: #e60023;
+  animation: rotateItem var(--animation-duration) linear infinite;
+  transform-style: preserve-3d;
+}
+
+.center-heart-display::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 10rem;
+  height: 2.5rem;
+  background: radial-gradient(ellipse at center, #b30000 0%, #660000 80%);
+  border-radius: 50%;
+  animation: rotateItem var(--animation-duration) linear infinite;
+  transform-style: preserve-3d;
+  z-index: 4;
+}
+
+@keyframes rotateItem {
+  to {
+    rotate: y 360deg;
+  }
+}
+@keyframes rotateBG {
+  to {
+    background-position: -100% 0;
+  }
+}
+
+/* Texto del poema */
+.poem-title {
+  font-family: var(--primary-font);
+  font-size: 2.2em;
+  color: var(--heart-color);
+  margin-bottom: 20px;
+  animation: fadeIn 1s forwards;
+  animation-delay: 1.8s; /* Aparece después del corazón 3D */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.poem-text {
+  white-space: pre-wrap;
+  font-family: "Courier New", monospace;
+  font-size: 1.2em;
+  color: #000000;
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes blink-caret {
+  from,
+  to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: orange;
+  }
+}
+
+/* Animación general de fade-in */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Clases de utilidad */
+.hidden {
+  display: none;
+}
+
+/* Media Queries para responsividad */
+/* ...todo tu CSS original arriba permanece igual... */
+
+/* Media Queries para responsividad mejoradas */
+@media (max-width: 900px) {
+  .content-wrapper {
+    flex-direction: column;
+    height: auto;
+    padding: 20px;
+  }
+
+  .left-section,
+  .right-section {
+    margin-bottom: 30px;
+    border-right: none;
+    padding: 15px;
+  }
+
+  .center-heart-display {
+    margin: 30px 0;
+  }
+
+  .image-container {
+    width: 180px;
+    height: 180px;
+  }
+
+  .poem-title {
+    font-size: 1.9em;
+  }
+
+  .poem-text {
+    font-size: 1.25em;
+    padding: 0 10px;
+  }
+
+  .main-screen h1 {
+    font-size: 2.8em;
+  }
+
+  .countdown-display {
+    font-size: 1.6em;
+  }
+}
+
+@media (max-width: 600px) {
+  .main-screen h1 {
+    font-size: 2.3em;
+    padding: 0 10px;
+    text-align: center;
+  }
+
+  .initial-message p {
+    font-size: 1em;
+  }
+
+  .initial-heart-button {
+    font-size: 2.3em;
+  }
+
+  .image-container {
+    width: 140px;
+    height: 140px;
+  }
+
+  .center-heart-display {
+    bottom: 8vh;
+  }
+
+  .countdown-display {
+    font-size: 1.4em;
+  }
+
+  .poem-title {
+    font-size: 1.6em;
+    padding: 0 5px;
+    text-align: center;
+  }
+
+  .poem-text {
+    font-size: 1.15em;
+    line-height: 1.6;
+    padding: 0 15px;
+    text-align: left;
+  }
+
+  .left-section,
+  .right-section {
+    padding: 10px 5px;
+  }
+}
+
+@media (max-width: 400px) {
+  .main-screen h1 {
+    font-size: 2em;
+  }
+
+  .poem-text {
+    font-size: 1.1em;
+    padding: 0 10px;
+  }
+
+  .image-container {
+    width: 120px;
+    height: 120px;
+  }
+}
