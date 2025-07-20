@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const forgivenessPoemText = `Perdón por las veces que me expresé mal,
 por las palabras que no debí decir,
 por los silencios que dolieron más que solo la mirada,
-y por los momentos en los que no supe eque decir.
+y por los momentos en los que no supe que decir.
 
 Perdón por exgerar tus gestos,
 por no pensar bien antes que molestarme,
