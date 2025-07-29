@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const forgivenessPoemElement = document.getElementById("forgivenessPoem");
 
   // --- Configuración ---
-  const startDate = new Date("2024-10-05T00:00:00"); // Fecha de inicio
+  const startDate = new Date("2024-10-05T00:00:00");
 
   const forgivenessPoemText = `Perdón por las veces que me expresé mal,
 por las palabras que no debí decir,
@@ -38,7 +38,6 @@ la de seguir creciendo para merecerte.`;
 
     type();
   }
-  // --- Fin Configuración ---
 
   // Actualiza contador de tiempo
   function updateCountdown() {
@@ -71,8 +70,6 @@ la de seguir creciendo para merecerte.`;
         mainScreen.style.display = "none";
         contentWrapper.classList.remove("hidden");
         contentWrapper.classList.add("visible");
-
-        // Espera un momento y luego empieza a escribir el poema
         setTimeout(() => {
           typePoem(forgivenessPoemText, forgivenessPoemElement, 40);
         }, 1000);
